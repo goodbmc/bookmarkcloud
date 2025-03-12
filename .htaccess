@@ -1,0 +1,20 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+#如果部署在子文件夹 加上下面这句 否者注释# a为文件夹名称
+RewriteBase /b/
+
+# 排除静态文件和存在的目录的重定向
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# 排除特定文件类型
+RewriteRule \.(js|css|gif|jpg|jpeg|png|ico|svg|php)$ - [NC,L]
+
+# 规范化 index.php 的 URL: 始终不带斜杠
+RewriteRule ^index\.php/$ index.php [R=301,L]
+
+# 重定向其他所有请求到index.php
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+</IfModule>
